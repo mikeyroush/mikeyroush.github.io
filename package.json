@@ -1,6 +1,7 @@
 {
   "name": "mikeyroush-portfolio",
   "version": "1.0.0",
+  "type": "module",
   "description": "Mikey Roush's professional portfolio website",
   "scripts": {
     "dev": "astro dev",

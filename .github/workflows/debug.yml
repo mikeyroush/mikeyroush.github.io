@@ -1,0 +1,46 @@
+name: Debug GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  debug:
+    name: Debug Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3
+        
+      - name: Create debug files
+        run: |
+          mkdir -p debug
+          echo '<!DOCTYPE html><html><head><title>Debug</title></head><body><h1>Debug Page</h1><p>This page exists to debug GitHub Pages deployment issues.</p><p>Created at: $(date)</p></body></html>' > debug/index.html
+          echo '# Debug directory listing' > debug/README.md
+          echo 'This file was created by the debug workflow.' > debug/test.txt
+
+      - name: List files in repo
+        run: |
+          echo "Files in repository:"
+          ls -la
+          echo "Files in .github:"
+          ls -la .github || echo "No .github directory"
+          echo "Files in .github/workflows:"
+          ls -la .github/workflows || echo "No workflows directory"
+          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./debug
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
