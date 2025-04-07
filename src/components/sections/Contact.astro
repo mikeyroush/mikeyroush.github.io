@@ -1,0 +1,179 @@
+---
+import SectionHeading from '../shared/SectionHeading.astro';
+import Button from '../shared/Button.astro';
+---
+
+<section id="contact" class="bg-[var(--color-bg-secondary)] py-20 transition-theme">
+  <div class="container-section">
+    <SectionHeading 
+      title="Get In Touch" 
+      subtitle="Interested in working together or have a question? I'd love to hear from you."
+      alignment="center"
+    />
+    
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Contact Info -->
+      <div class="bg-[var(--color-bg-primary)] p-8 rounded-lg shadow-sm">
+        <h3 class="text-xl font-bold mb-6 text-[var(--color-text-primary)]">Connect With Me</h3>
+        
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--color-accent)] bg-opacity-20 text-[var(--color-accent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-[var(--color-text-primary)] font-medium">Email</h4>
+              <a href="mailto:me@mikeyroush.com" class="text-[var(--color-accent)] hover:underline">me@mikeyroush.com</a>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--color-accent)] bg-opacity-20 text-[var(--color-accent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-[var(--color-text-primary)] font-medium">LinkedIn</h4>
+              <a href="https://www.linkedin.com/in/mikey-roush/" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">linkedin.com/in/mikey-roush</a>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--color-accent)] bg-opacity-20 text-[var(--color-accent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-[var(--color-text-primary)] font-medium">GitHub</h4>
+              <a href="https://github.com/mikeyroush" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent)] hover:underline">github.com/mikeyroush</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Response time -->
+        <p class="mt-8 text-[var(--color-text-secondary)] text-sm border-t border-[var(--color-bg-secondary)] pt-4">
+          I typically respond to messages within 24-48 hours.
+        </p>
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="bg-[var(--color-bg-primary)] p-8 rounded-lg shadow-sm">
+        <h3 class="text-xl font-bold mb-6 text-[var(--color-text-primary)]">Send a Message</h3>
+        
+        <p class="text-[var(--color-text-secondary)] mb-6 text-sm">
+          Fill out the form below to send me an email directly from your default email client.
+        </p>
+        
+        <form id="contact-form" class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Name</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              required
+              class="w-full px-4 py-2 rounded-md border border-[var(--color-bg-secondary)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+            />
+          </div>
+          
+          <div>
+            <label for="email" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Your Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required
+              class="w-full px-4 py-2 rounded-md border border-[var(--color-bg-secondary)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+            />
+          </div>
+          
+          <div>
+            <label for="subject" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Subject</label>
+            <input 
+              type="text" 
+              id="subject" 
+              name="subject" 
+              required
+              class="w-full px-4 py-2 rounded-md border border-[var(--color-bg-secondary)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+            />
+          </div>
+          
+          <div>
+            <label for="message" class="block text-sm font-medium text-[var(--color-text-secondary)] mb-1">Message</label>
+            <textarea 
+              id="message" 
+              name="message" 
+              rows="4" 
+              required
+              class="w-full px-4 py-2 rounded-md border border-[var(--color-bg-secondary)] bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+            ></textarea>
+          </div>
+          
+          <div class="pt-2">
+            <Button
+              text="Open Email Client"
+              type="button"
+              id="email-button"
+              variant="primary"
+              className="w-full"
+              icon={`<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`}
+            />
+          </div>
+          
+          <!-- Validation message -->
+          <div id="form-validation" class="hidden bg-yellow-100 text-yellow-700 p-3 rounded-md text-sm">
+            Please fill out all required fields before sending.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Contact form handling with mailto link
+  document.addEventListener('DOMContentLoaded', () => {
+    const contactForm = document.getElementById('contact-form');
+    const emailButton = document.getElementById('email-button');
+    const validationMessage = document.getElementById('form-validation');
+    
+    if (contactForm && emailButton) {
+      emailButton.addEventListener('click', () => {
+        // Get form fields
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const subjectField = document.getElementById('subject');
+        const messageField = document.getElementById('message');
+        
+        // Check if all required fields are filled
+        if (!nameField.value || !emailField.value || !subjectField.value || !messageField.value) {
+          if (validationMessage) validationMessage.classList.remove('hidden');
+          return;
+        }
+        
+        // Hide validation message if it was shown
+        if (validationMessage) validationMessage.classList.add('hidden');
+        
+        // Create mailto link with form data
+        const mailtoLink = `mailto:me@mikeyroush.com?subject=${encodeURIComponent(subjectField.value)}&body=${encodeURIComponent(
+          `Name: ${nameField.value}\nEmail: ${emailField.value}\n\n${messageField.value}`
+        )}`;
+        
+        // Open email client
+        window.location.href = mailtoLink;
+      });
+      
+      // Hide validation message when starting to fill form again
+      contactForm.addEventListener('input', () => {
+        if (validationMessage) validationMessage.classList.add('hidden');
+      });
+    }
+  });
+</script>

@@ -1,0 +1,54 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  tags?: string[];
+  url?: string;
+  className?: string;
+}
+
+const { title, description, image, tags = [], url, className = '' } = Astro.props;
+---
+
+<div class={`group bg-[var(--color-bg-secondary)] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ${className}`}>
+  {image && (
+    <div class="relative h-48 overflow-hidden">
+      <img 
+        src={image} 
+        alt={title}
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </div>
+  )}
+  
+  <div class="p-6">
+    <h3 class="text-[var(--color-text-primary)] text-xl font-bold mb-2">
+      {url ? (
+        <a href={url} class="hover:text-[var(--color-accent)] transition-colors duration-200">
+          {title}
+        </a>
+      ) : (
+        <>{title}</>
+      )}
+    </h3>
+    
+    {description && (
+      <p class="text-[var(--color-text-secondary)] mb-4">
+        {description}
+      </p>
+    )}
+    
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mt-4">
+        {tags.map(tag => (
+          <span class="px-2 py-1 text-xs bg-[var(--color-bg-primary)] rounded-full text-[var(--color-text-secondary)]">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+    
+    <slot />
+  </div>
+</div>

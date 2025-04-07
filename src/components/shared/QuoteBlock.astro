@@ -1,0 +1,23 @@
+---
+interface Props {
+  text: string;
+  author: string;
+  category?: string;
+}
+
+const { text, author, category } = Astro.props;
+---
+
+<div class="py-16 my-8">
+  <blockquote class="relative max-w-3xl mx-auto text-center px-4">
+    <div class="text-[var(--color-accent)] text-6xl font-serif absolute top-0 left-0 opacity-20">"</div>
+    <p class="text-[var(--color-text-primary)] text-xl md:text-2xl font-serif italic relative z-10 mb-4">
+      "{text}"
+    </p>
+    <cite class="text-[var(--color-text-secondary)] not-italic block">
+      — {author}
+      {category && <span class="text-sm opacity-75 ml-2">| {category}</span>}
+    </cite>
+    <div class="text-[var(--color-accent)] text-6xl font-serif absolute bottom-0 right-0 opacity-20">"</div>
+  </blockquote>
+</div>

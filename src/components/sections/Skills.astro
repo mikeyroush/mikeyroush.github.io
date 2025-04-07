@@ -1,0 +1,55 @@
+---
+import SectionHeading from '../shared/SectionHeading.astro';
+import SkillsVisualization from '../interactive/SkillsVisualization.astro';
+import QuoteBlock from '../shared/QuoteBlock.astro';
+import { quotes } from '../../data/journey.js';
+
+// Select a technical quote
+const technicalQuotes = quotes.filter(quote => quote.category === 'technical');
+const techQuote = technicalQuotes[Math.floor(Math.random() * technicalQuotes.length)] || quotes[0];
+---
+
+<section id="skills" class="bg-[var(--color-bg-primary)] py-20 transition-theme">
+  <div class="container-section">
+    <SectionHeading 
+      title="Technical Skills" 
+      subtitle="Interactive visualization of my technical and leadership skills, grouped by category."
+      alignment="center"
+    />
+    
+    <div class="mt-12">
+      <!-- Skills Visualization -->
+      <SkillsVisualization />
+      
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 bg-[var(--color-bg-secondary)] rounded-lg shadow-sm">
+          <h3 class="font-bold text-xl mb-3 text-[var(--color-text-primary)]">Frontend Focus</h3>
+          <p class="text-[var(--color-text-secondary)]">
+            Building responsive, accessible interfaces with modern frameworks like Angular, React, and NextJS. Strong emphasis on type safety with TypeScript and component-driven architecture.
+          </p>
+        </div>
+        
+        <div class="p-6 bg-[var(--color-bg-secondary)] rounded-lg shadow-sm">
+          <h3 class="font-bold text-xl mb-3 text-[var(--color-text-primary)]">Backend Expertise</h3>
+          <p class="text-[var(--color-text-secondary)]">
+            Designing scalable APIs and services using NestJS, .NET, and other frameworks. Experience with various database technologies and cloud-based infrastructure.
+          </p>
+        </div>
+        
+        <div class="p-6 bg-[var(--color-bg-secondary)] rounded-lg shadow-sm">
+          <h3 class="font-bold text-xl mb-3 text-[var(--color-text-primary)]">Leadership Growth</h3>
+          <p class="text-[var(--color-text-secondary)]">
+            Evolved from individual contributor to leading development teams and managing client relationships. Focus on mentoring junior developers and delivering high-quality solutions.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Technical Quote -->
+    <QuoteBlock 
+      text={techQuote.text}
+      author={techQuote.author}
+      category={techQuote.category}
+    />
+  </div>
+</section>

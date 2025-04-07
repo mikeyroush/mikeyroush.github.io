@@ -1,0 +1,63 @@
+---
+// Theme toggle for coffee/bourbon modes
+---
+
+<button
+  id="theme-toggle"
+  aria-label="Toggle theme"
+  class="relative flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:bg-[var(--color-bg-secondary)]"
+>
+  <!-- Coffee Icon (Light Mode) - Custom PNG -->
+  <img 
+    src="/images/icons/coffee.png" 
+    alt="Coffee Theme Icon" 
+    class="w-5 h-5 theme-coffee-icon absolute transition-opacity duration-300"
+    data-theme-coffee
+  />
+  
+  <!-- Bourbon Icon (Dark Mode) - Custom PNG -->
+  <img 
+    src="/images/icons/bourbon.png" 
+    alt="Bourbon Theme Icon" 
+    class="w-5 h-5 theme-bourbon-icon absolute transition-opacity duration-300"
+    data-theme-bourbon
+  />
+</button>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  const coffeeIcon = document.querySelector('[data-theme-coffee]');
+  const bourbonIcon = document.querySelector('[data-theme-bourbon]');
+  
+  // Initialize theme state
+  function updateThemeDisplay() {
+    const currentTheme = localStorage.getItem('theme') || 'coffee';
+    document.documentElement.className = '';
+    document.documentElement.classList.add(`theme-${currentTheme}`);
+    
+    // Toggle icon visibility
+    if (coffeeIcon && bourbonIcon) {
+      if (currentTheme === 'coffee') {
+        coffeeIcon.classList.add('opacity-0');
+        bourbonIcon.classList.remove('opacity-0');
+      } else {
+        coffeeIcon.classList.remove('opacity-0');
+        bourbonIcon.classList.add('opacity-0');
+      }
+    }
+  }
+  
+  // Set initial state
+  updateThemeDisplay();
+  
+  // Toggle theme
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 'coffee';
+      const newTheme = currentTheme === 'coffee' ? 'bourbon' : 'coffee';
+      
+      localStorage.setItem('theme', newTheme);
+      updateThemeDisplay();
+    });
+  }
+</script>

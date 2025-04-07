@@ -1,0 +1,98 @@
+---
+import SectionHeading from '../shared/SectionHeading.astro';
+import QuoteBlock from '../shared/QuoteBlock.astro';
+import { experienceData } from '../../data/experience.js';
+import { quotes } from '../../data/journey.js';
+
+// Select a leadership quote
+const leadershipQuotes = quotes.filter(quote => quote.category === 'leadership');
+const leadershipQuote = leadershipQuotes[Math.floor(Math.random() * leadershipQuotes.length)] || quotes[0];
+---
+
+<section id="experience" class="bg-[var(--color-bg-primary)] py-20 transition-theme">
+  <div class="container-section">
+    <SectionHeading 
+      title="Professional Experience" 
+      subtitle="My journey from student to Senior Software Developer and people manager."
+    />
+    
+    <div class="mt-12 relative">
+      <!-- Experience timeline line -->
+      <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-[var(--color-accent)] transform md:translate-x-[-0.5px]"></div>
+      
+      <!-- Experience items -->
+      <div class="space-y-12">
+        {experienceData.map((item, index) => (
+          <div class={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+            <!-- Timeline dot -->
+            <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-[var(--color-accent)] border-4 border-[var(--color-bg-primary)]"></div>
+            
+            <!-- Date for mobile -->
+            <div class="md:hidden mb-4 font-bold text-[var(--color-accent)]">
+              {item.duration}
+            </div>
+            
+            <!-- Content -->
+            <div class={`md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12'}`}>
+              <div class="bg-[var(--color-bg-secondary)] p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold text-[var(--color-text-primary)]">{item.title}</h3>
+                <h4 class="text-[var(--color-accent)] font-medium mb-3">{item.company}</h4>
+                
+                <!-- Date for desktop -->
+                <div class="hidden md:block text-sm text-[var(--color-text-secondary)] mb-4">
+                  {item.duration}
+                </div>
+                
+                <p class="text-[var(--color-text-secondary)] mb-4">
+                  {item.description}
+                </p>
+                
+                <div class="mt-4">
+                  <h5 class="font-medium text-[var(--color-text-primary)] mb-2">Key Responsibilities:</h5>
+                  <ul class={`list-disc ${index % 2 === 0 ? 'md:mr-4 md:text-right md:list-none' : 'ml-4'}`}>
+                    {item.responsibilities.map((responsibility) => (
+                      <li class="text-[var(--color-text-secondary)] mb-1">{responsibility}</li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {item.skills.map((skill) => (
+                    <span class="px-2 py-1 text-xs bg-[var(--color-bg-primary)] rounded-full text-[var(--color-text-secondary)]">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Leadership Quote -->
+    <QuoteBlock 
+      text={leadershipQuote.text}
+      author={leadershipQuote.author}
+      category={leadershipQuote.category}
+    />
+    
+    <!-- Call to action -->
+    <div class="mt-12 text-center">
+      <a 
+        href="/documents/mroush.pdf" 
+        target="_blank" 
+        class="inline-flex items-center px-6 py-3 bg-[var(--color-accent)] text-white font-medium rounded-md shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        Download Full Resume
+      </a>
+    </div>
+  </div>
+</section>

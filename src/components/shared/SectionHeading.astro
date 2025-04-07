@@ -1,0 +1,31 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  alignment?: 'left' | 'center' | 'right';
+}
+
+const { 
+  title, 
+  subtitle, 
+  alignment = 'left' 
+} = Astro.props;
+
+// CSS classes for different alignments
+const alignmentClasses = {
+  left: 'text-left after:left-0',
+  center: 'text-center after:left-1/2 after:-translate-x-1/2',
+  right: 'text-right after:right-0'
+};
+---
+
+<div class="mb-12">
+  <h2 class={`section-heading ${alignmentClasses[alignment]}`}>
+    {title}
+  </h2>
+  {subtitle && (
+    <p class={`text-[var(--color-text-secondary)] mt-4 max-w-2xl ${alignment === 'center' ? 'mx-auto' : ''}`}>
+      {subtitle}
+    </p>
+  )}
+</div>

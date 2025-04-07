@@ -1,0 +1,151 @@
+---
+import { journeyData } from '../../data/journey.js';
+---
+
+<div id="timeline-tree" class="relative min-h-[800px] w-full">
+  <div class="timeline-container relative min-h-[800px] w-full flex justify-center">
+    <!-- Tree trunk (this will be animated with JS) -->
+    <div class="tree-trunk absolute h-full w-4 bg-[var(--color-accent)] rounded-full opacity-30 z-0"></div>
+    
+    <!-- Tree growth path (this will be filled via JS animation) -->
+    <div class="tree-growth absolute h-0 w-4 bg-[var(--color-accent)] rounded-full top-0 transition-all duration-1000 z-0"></div>
+    
+    <!-- Timeline events will be placed here via JS -->
+    <div class="timeline-events relative w-full max-w-4xl z-10"></div>
+  </div>
+</div>
+
+<template id="timeline-event-template">
+  <div class="timeline-event opacity-0 absolute transition-all duration-500">
+    <div class="flex items-center">
+      <div class="event-content ml-4 bg-[var(--color-bg-secondary)] p-4 rounded-lg shadow-md max-w-md z-10 relative">
+        <div class="event-year text-sm font-bold text-[var(--color-accent)]"></div>
+        <h4 class="event-title text-xl font-bold text-[var(--color-text-primary)] mb-1"></h4>
+        <p class="event-description text-[var(--color-text-secondary)]"></p>
+      </div>
+    </div>
+    <div class="event-branch h-1 bg-[var(--color-accent)] absolute top-[25px] opacity-40 z-0"></div>
+  </div>
+</template>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { journeyData } from '../../data/journey.js';
+  
+  // Register GSAP plugins
+  gsap.registerPlugin(ScrollTrigger);
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const timelineTree = document.getElementById('timeline-tree');
+    if (!timelineTree) return;
+    
+    const timelineEvents = document.querySelector('.timeline-events');
+    const treeGrowth = document.querySelector('.tree-growth');
+    const template = document.getElementById('timeline-event-template');
+    
+    // Sort journey data by year chronologically (earlier dates at top)
+    const sortedData = [...journeyData].sort((a, b) => a.year - b.year);
+    
+    // Create timeline events
+    sortedData.forEach((item, index) => {
+      if (!template || !template.content || !timelineEvents) return;
+      
+      // Clone the template
+      const event = document.importNode(template.content, true).querySelector('.timeline-event');
+      if (!event) return;
+      
+      // Set content
+      event.querySelector('.event-year').textContent = item.year.toString();
+      event.querySelector('.event-title').textContent = item.title;
+      event.querySelector('.event-description').textContent = item.description;
+      
+      // Add category-based styling to event content
+      const eventContent = event.querySelector('.event-content');
+      if (eventContent) {
+        eventContent.classList.add(item.category === 'education' ? 'border-l-4' : 'border-r-4');
+        eventContent.classList.add(item.category === 'education' ? 'border-blue-500' : 'border-green-500');
+      }
+      
+      // Set position (alternate sides)
+      const isEven = index % 2 === 0;
+      const side = isEven ? 'left' : 'right';
+      const verticalPosition = `${10 + (index * (75 / sortedData.length))}%`;
+      
+      event.style.top = verticalPosition;
+      
+      if (side === 'left') {
+        event.style.left = '0';
+        event.style.right = '50%';
+        event.querySelector('.event-branch').style.right = '0';
+        event.querySelector('.event-branch').style.left = 'auto';
+        event.querySelector('.event-branch').style.width = 'calc(50% - 2rem)';
+        event.style.textAlign = 'right';
+        event.style.paddingRight = '5rem';
+        // Reverse flex direction for left side events
+        event.querySelector('.flex').style.flexDirection = 'row-reverse';
+        event.querySelector('.event-content').classList.remove('ml-4');
+        event.querySelector('.event-content').classList.add('mr-4');
+      } else {
+        event.style.left = '50%';
+        event.style.right = '0';
+        event.querySelector('.event-branch').style.left = '0';
+        event.querySelector('.event-branch').style.right = 'auto';
+        event.querySelector('.event-branch').style.width = 'calc(50% - 2rem)';
+        event.style.paddingLeft = '5rem';
+      }
+      
+      // Add data attributes for animations
+      event.dataset.index = index.toString();
+      event.dataset.year = item.year.toString();
+      
+      // Add to timeline
+      timelineEvents.appendChild(event);
+    });
+    
+    // Create animation for tree growth - growing downward from top
+    gsap.fromTo(treeGrowth, 
+      { height: 0, top: 0 },
+      {
+        height: '100%',
+        ease: 'power1.out',
+        scrollTrigger: {
+          trigger: timelineTree,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          scrub: true,
+        }
+      }
+    );
+    
+    // Animate individual events as they come into view
+    const events = document.querySelectorAll('.timeline-event');
+    events.forEach((event) => {
+      gsap.to(event, {
+        opacity: 1,
+        x: 0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: event,
+          start: 'top 80%',
+          end: 'top 50%',
+          scrub: true,
+        }
+      });
+    });
+    
+    // Add branches from the trunk to each event
+    document.querySelectorAll('.event-branch').forEach((branch) => {
+      gsap.to(branch, {
+        width: branch.style.width,
+        ease: 'power1.out',
+        scrollTrigger: {
+          trigger: branch,
+          start: 'top 80%',
+          end: 'top 50%',
+          scrub: true,
+        }
+      });
+    });
+  });
+</script>

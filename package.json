@@ -1,28 +1,35 @@
 {
-  "name": "personalWebpage",
+  "name": "mikeyroush-portfolio",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "description": "Mikey Roush's professional portfolio website",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikeyroush/personalWebpage.git"
+    "url": "git+https://github.com/mikeyroush/mikeyroush.github.io.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["portfolio", "astro", "web developer"],
+  "author": "Mikey Roush",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mikeyroush/personalWebpage/issues"
+    "url": "https://github.com/mikeyroush/mikeyroush.github.io/issues"
   },
-  "homepage": "https://github.com/mikeyroush/personalWebpage#readme",
+  "homepage": "https://mikeyroush.github.io",
   "devDependencies": {
-    "browser-sync": "^2.26.7",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-sass": "^4.1.0",
-    "gulp-uglify": "^3.0.2"
+    "astro": "^4.5.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "tailwindcss": "^3.4.1",
+    "postcss": "^8.4.35",
+    "autoprefixer": "^10.4.17"
+  },
+  "dependencies": {
+    "d3": "^7.8.5",
+    "gsap": "^3.12.5"
   }
 }

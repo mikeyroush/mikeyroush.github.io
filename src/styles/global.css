@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Base variables - will be overridden by theme */
+  --color-bg-primary: theme('colors.coffee.light');
+  --color-bg-secondary: theme('colors.coffee.cream');
+  --color-text-primary: theme('colors.coffee.dark');
+  --color-text-secondary: theme('colors.coffee.medium');
+  --color-accent: theme('colors.coffee.accent');
+  
+  /* Common variables across themes */
+  --header-height: 4rem;
+  --footer-height: 3rem;
+  --transition-speed: 0.3s;
+  
+  /* Misc */
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+/* Coffee/Light Theme (default) */
+.theme-coffee {
+  --color-bg-primary: theme('colors.coffee.light');
+  --color-bg-secondary: theme('colors.coffee.cream');
+  --color-text-primary: theme('colors.coffee.dark');
+  --color-text-secondary: theme('colors.coffee.medium');
+  --color-accent: theme('colors.coffee.accent');
+}
+
+/* Bourbon/Dark Theme */
+.theme-bourbon {
+  --color-bg-primary: theme('colors.bourbon.dark');
+  --color-bg-secondary: theme('colors.bourbon.darker');
+  --color-text-primary: theme('colors.coffee.light');
+  --color-text-secondary: theme('colors.bourbon.amber');
+  --color-accent: theme('colors.bourbon.glow');
+}
+
+/* Base element styles */
+@layer base {
+  body {
+    @apply bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] 
+      font-sans leading-relaxed min-h-screen transition-colors 
+      duration-300 ease-in-out;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  a:not([class]) {
+    @apply text-[var(--color-accent)] transition-colors 
+      duration-200 hover:text-[var(--color-text-primary)];
+  }
+  
+  code {
+    @apply font-mono;
+  }
+}
+
+/* Component styles */
+@layer components {
+  .container-section {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20;
+  }
+  
+  .section-heading {
+    @apply font-serif text-3xl md:text-4xl font-bold mb-8 relative
+      after:content-[''] after:absolute after:left-0 after:bottom-0
+      after:h-1 after:w-16 after:bg-[var(--color-accent)];
+  }
+  
+  .btn {
+    @apply inline-flex items-center justify-center px-5 py-2
+      rounded-md font-medium transition-all duration-200
+      transform hover:scale-105 focus:outline-none focus:ring-2
+      focus:ring-offset-2 focus:ring-[var(--color-accent)];
+  }
+  
+  .btn-primary {
+    @apply btn bg-[var(--color-accent)] text-white;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-[var(--color-accent)] text-[var(--color-accent)]
+      hover:bg-[var(--color-accent)] hover:text-white;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  .transition-theme {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+}

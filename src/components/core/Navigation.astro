@@ -1,0 +1,110 @@
+---
+// Define navigation items
+const navItems = [
+  { text: 'Home', url: '/' },
+  { text: 'About', url: '#about' },
+  { text: 'Journey', url: '#journey' },
+  { text: 'Skills', url: '#skills' },
+  { text: 'Projects', url: '#projects' },
+  { text: 'Experience', url: '#experience' },
+  { text: 'Contact', url: '#contact' },
+];
+---
+
+<nav class="hidden md:block">
+  <ul class="flex space-x-6">
+    {navItems.map((item) => (
+      <li>
+        <a 
+          href={item.url} 
+          class="text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-200 font-medium"
+        >
+          {item.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<!-- Mobile Menu Button -->
+<button 
+  id="mobile-menu-button"
+  aria-label="Toggle Menu"
+  class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5"
+>
+  <span class="block w-6 h-0.5 bg-[var(--color-text-primary)] transition-all duration-300"></span>
+  <span class="block w-6 h-0.5 bg-[var(--color-text-primary)] transition-all duration-300"></span>
+  <span class="block w-6 h-0.5 bg-[var(--color-text-primary)] transition-all duration-300"></span>
+</button>
+
+<!-- Mobile Menu -->
+<div 
+  id="mobile-menu" 
+  class="fixed inset-0 z-50 bg-[var(--color-bg-primary)] transform -translate-y-full transition-transform duration-300 ease-in-out md:hidden"
+>
+  <div class="container mx-auto px-4 pt-20 pb-8">
+    <ul class="flex flex-col items-center space-y-6">
+      {navItems.map((item) => (
+        <li class="w-full text-center">
+          <a 
+            href={item.url} 
+            class="text-[var(--color-text-primary)] text-xl hover:text-[var(--color-accent)] transition-colors duration-200 font-medium mobile-link"
+          >
+            {item.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Mobile Menu Functionality
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  
+  if (mobileMenuButton && mobileMenu) {
+    // Toggle menu when button is clicked
+    mobileMenuButton.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('translate-y-0');
+      
+      if (isOpen) {
+        mobileMenu.classList.remove('translate-y-0');
+        mobileMenu.classList.add('-translate-y-full');
+        document.body.classList.remove('overflow-hidden');
+        
+        // Reset hamburger icon
+        const spans = mobileMenuButton.querySelectorAll('span');
+        spans[0].classList.remove('rotate-45', 'translate-y-2');
+        spans[1].classList.remove('opacity-0');
+        spans[2].classList.remove('-rotate-45', '-translate-y-2');
+      } else {
+        mobileMenu.classList.add('translate-y-0');
+        mobileMenu.classList.remove('-translate-y-full');
+        document.body.classList.add('overflow-hidden');
+        
+        // Transform to X icon
+        const spans = mobileMenuButton.querySelectorAll('span');
+        spans[0].classList.add('rotate-45', 'translate-y-2');
+        spans[1].classList.add('opacity-0');
+        spans[2].classList.add('-rotate-45', '-translate-y-2');
+      }
+    });
+    
+    // Close menu when a link is clicked
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('translate-y-0');
+        mobileMenu.classList.add('-translate-y-full');
+        document.body.classList.remove('overflow-hidden');
+        
+        // Reset hamburger icon
+        const spans = mobileMenuButton.querySelectorAll('span');
+        spans[0].classList.remove('rotate-45', 'translate-y-2');
+        spans[1].classList.remove('opacity-0');
+        spans[2].classList.remove('-rotate-45', '-translate-y-2');
+      });
+    });
+  }
+</script>
