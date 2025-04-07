@@ -1,60 +1,50 @@
 # GitHub Pages Troubleshooting Guide
 
-I've identified several potential issues with the GitHub Pages deployment:
+## Updated Workflow Files
 
-## Current Issues
+I've updated both workflow files:
+1. **Main deployment workflow** - Using the official Astro GitHub Pages template
+2. **Debug workflow** - Updated with the latest GitHub Actions versions
 
-1. **Module Type Warning**: Added `"type": "module"` to package.json to fix the warning in the build.
+The original error (`Missing download info for actions/upload-artifact@v3`) was likely due to using outdated or incompatible GitHub Actions versions. The official Astro template uses the correct versions that are designed to work together.
 
-2. **Conflicting Workflows**: You have two workflows trying to deploy:
-   - Our custom Astro workflow
-   - GitHub's default Pages workflow
+## Required GitHub Pages Configuration
 
-3. **Static Files Location**: The build looks correct locally (index.html is in the dist folder), but it might not be deployed correctly.
-
-## Debugging Steps to Try
-
-### 1. Debug Deployment with Simple Files
-
-I've created:
-- A debug workflow (`.github/workflows/debug.yml`) 
-- A simple debug page (`debug/index.html`)
-
-You can run this workflow manually from the GitHub Actions tab to test if basic GitHub Pages deployments work.
-
-### 2. Configure GitHub Pages Correctly
+For GitHub Pages to work correctly with Astro:
 
 1. Go to your GitHub repository Settings > Pages
 2. Make sure the **Source** is set to "GitHub Actions"
-3. Make sure no branch is selected for deployment
+3. Under "Custom domain," ensure your domain is correctly set if you're using a custom domain
 
-### 3. Check Repository Settings
+## Testing the Deployment
 
-1. Go to Settings > Actions > General
-2. Ensure Workflow permissions are set to "Read and write permissions"
+After pushing these changes:
 
-### 4. Inspect Recent Deployments
+1. Go to GitHub Actions in your repository
+2. Wait for the "Deploy Astro site to Pages" workflow to complete
+3. Check the deployment URL listed in the workflow summary
 
-1. Go to the "Deployments" section in your repository
-2. Look at recent deployments to see what's actually being deployed
+## Common Issues and Solutions
 
-### 5. Check Base Path
+### Base Path Issues
+If your site loads but without CSS/JS:
+- Check base path in astro.config.mjs
+- The GitHub workflow now automatically sets the correct base path
 
-1. Make sure the Astro config's site parameter is set correctly
-2. Try accessing your site with `/index.html` explicitly
+### 404 Errors
+If you still get 404 errors:
+- Make sure GitHub Pages is using GitHub Actions (not Jekyll)
+- Check that index.html is in the root of the deployed site
+- Verify all file paths are correct (especially in links and images)
 
-## Testing Your Site
-
-After running the debug workflow, check if the debug page is accessible at:
-- https://mikeyroush.github.io/
-- https://mikeyroush.github.io/index.html
-- https://mikeyroush.com/
-- https://mikeyroush.com/index.html
-
-If the debug page works but the full site doesn't, the issue is with the Astro build output.
+### Custom Domain Issues
+If using a custom domain:
+- Verify CNAME file is in the public/ directory
+- Check DNS settings 
+- Ensure SSL is properly configured
 
 ## Next Steps
 
-1. Run the debug workflow to test basic GitHub Pages functionality
-2. Check the Settings > Pages configuration
-3. If the debug page deploys successfully, we'll update the main workflow accordingly
+1. Push these updated workflows to GitHub
+2. Monitor the GitHub Actions tab for successful workflow completion
+3. Check your site using the URL provided in the workflow summary
