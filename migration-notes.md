@@ -1,10 +1,24 @@
 # Astro Migration Notes
 
+## Critical Fix: GitHub Pages Deployment Configuration
+I've made the following critical changes to fix the deployment issues:
+
+1. **Updated the GitHub Actions workflow file**:
+   - Added `actions/configure-pages@v3` to properly set up GitHub Pages
+   - Updated to newer versions of the actions
+   - Added concurrency control for deployments
+   - This prevents Jekyll from being used during deployment
+
+2. **Added `.nojekyll` files**:
+   - Added to both the root directory AND the `public/` directory
+   - This ensures GitHub Pages doesn't try to process the site with Jekyll
+   - Both locations are necessary for different stages of the deployment
+
 ## About GitHub Pages Deployment
 - The GitHub free plan includes GitHub Actions with 2,000 minutes per month for private repositories and unlimited minutes for public repositories.
-- The current deployment workflow in `.github/workflows/deploy.yml` is configured correctly:
-  - It builds the site using `npm run build`
-  - It deploys the `dist/` directory to GitHub Pages
+- The workflow in `.github/workflows/deploy.yml` is now correctly configured to:
+  - Build the site using Astro (not Jekyll)
+  - Deploy the `dist/` directory to GitHub Pages
   - No need to commit the `dist/` directory (it's correctly in `.gitignore`)
 
 ## Files to Remove
@@ -48,13 +62,19 @@ The following files/directories are no longer needed after migration:
 
 ## Important Preserved Files
 - `CNAME` - Copied to `public/` directory to maintain custom domain
+- `.nojekyll` - Added to both root and `public/` directory to disable Jekyll processing
 - `documents/` - Copied to `public/documents/` to preserve existing files
 - `images/` - Copied to `public/images/` to maintain asset references
 
 ## New Project Structure
 ```
 mikeyroush.github.io/
-├── public/                # Static assets including CNAME
+├── .nojekyll              # Disable Jekyll in root
+├── public/                # Static assets
+│   ├── .nojekyll          # Disable Jekyll in build output
+│   ├── CNAME              # Custom domain configuration
+│   ├── documents/         # PDF files and other documents
+│   └── images/            # Image assets
 ├── src/                   # Source code
 │   ├── components/        # UI components
 │   ├── layouts/           # Page layouts
@@ -67,5 +87,3 @@ mikeyroush.github.io/
 ├── package.json           # Dependencies
 └── tailwind.config.mjs    # Tailwind configuration
 ```
-
-The GitHub Actions workflow will handle building and deploying the site, so there's no need to commit the `dist/` directory.
