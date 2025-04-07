@@ -1,0 +1,62 @@
+---
+import SectionHeading from '../shared/SectionHeading.astro';
+---
+
+<section id="about" class="bg-[var(--color-bg-primary)] py-20 transition-theme">
+  <div class="container-section">
+    <SectionHeading 
+      title="About Me" 
+      subtitle="Get to know me beyond the code."
+    />
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="mb-6 text-lg text-[var(--color-text-primary)]">
+          I'm a Senior Software Developer, people manager, and delivery lead at Frogslayer, where I build impactful solutions for enterprise clients while leading development teams.
+        </p>
+        
+        <p class="mb-6 text-lg text-[var(--color-text-primary)]">
+          With a background in Computer Engineering from Texas A&M University and minors in Business and Cybersecurity, I bring a multidisciplinary approach to software development that balances technical excellence with business value.
+        </p>
+        
+        <p class="mb-6 text-lg text-[var(--color-text-primary)]">
+          My professional journey has taken me from teaching coding to kids at Code Ninjas, to interning at Arbin Instruments, to my current role where I architect solutions and mentor junior developers.
+        </p>
+        
+        <div class="mt-8">
+          <h3 class="text-xl font-bold mb-3 text-[var(--color-text-primary)]">When I'm not coding...</h3>
+          <div class="flex flex-wrap gap-4">
+            <div class="flex items-center bg-[var(--color-bg-secondary)] px-4 py-2 rounded-full">
+              <span class="mr-2">☕</span>
+              <span class="text-[var(--color-text-secondary)]">Coffee Enthusiast</span>
+            </div>
+            <div class="flex items-center bg-[var(--color-bg-secondary)] px-4 py-2 rounded-full">
+              <span class="mr-2">🥃</span>
+              <span class="text-[var(--color-text-secondary)]">Bourbon Taster</span>
+            </div>
+            <div class="flex items-center bg-[var(--color-bg-secondary)] px-4 py-2 rounded-full">
+              <span class="mr-2">🚲</span>
+              <span class="text-[var(--color-text-secondary)]">Cycling</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="relative">
+        <div class="w-full h-[400px] bg-[var(--color-bg-secondary)] rounded-lg overflow-hidden shadow-xl">
+          <!-- Placeholder for profile image - replace with your actual image -->
+          <img 
+            src="/images/professional-image.jpg" 
+            alt="Mikey Roush"
+            class="w-full h-full object-cover"
+            onerror="this.onerror=null; this.src='/images/background1.jpg';"
+          />
+        </div>
+        
+        <!-- Decorative element -->
+        <div class="absolute -bottom-6 -left-6 w-1/2 h-24 bg-[var(--color-accent)] opacity-20 rounded-lg"></div>
+        <div class="absolute -top-6 -right-6 w-1/3 h-24 bg-[var(--color-accent)] opacity-20 rounded-lg"></div>
+      </div>
+    </div>
+  </div>
+</section>

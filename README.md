@@ -1,37 +1,86 @@
-# personal-webpage
+# Mikey Roush Portfolio
 
-This project implements a culmination of my HTML, CSS, and JavaScript knowledge to make a personal portfolio. It can be seen at [Roush, Michael: About Me](https://mikeyroush.github.io)
+My professional portfolio website built with Astro, showcasing my projects, skills, and experience as a Senior Software Developer.
 
-## Getting Started
+## Features
 
-These instructions will get you a copy of the project up and running on your local machine for testing purposes.
+- Modern responsive design with Coffee/Bourbon theme toggle
+- Interactive timeline tree visualization of my professional journey
+- D3-based skill visualization with interactive category filtering
+- Project showcase with filtering capabilities
+- Interactive easter egg treasure hunt activated with Konami code (↑↑↓↓←→←→BA)
+- Fast performance with optimized assets
+- GitHub Pages deployment workflow
 
-### Prerequisites
+## Technologies Used
 
-A working command line
+- [Astro](https://astro.build/) - Web framework for content-focused websites
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [GSAP](https://greensock.com/gsap/) - Animation library for timeline tree
+- [D3.js](https://d3js.org/) - Data visualization library for skills clusters
 
-### Installing and Running
+## Local Development
 
-Download the zip then install the devDependencies from the package.json
+```bash
+# Install dependencies
+npm install
 
-Navigate to the correct directory and install the devDependencies
+# Start development server
+npm run dev
 
-```console
-foo@bar:~$ cd /path/to/directory/here
-foo@bar:~$ npm install
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-Launch BrowserSync and watch files for changes
+## Project Structure
 
-```console
-foo@bar:~$ gulp watch
+```
+mikeyroush.github.io/
+├── public/                # Static assets
+├── src/
+│   ├── components/        # UI components
+│   │   ├── core/          # Header, Footer, Navigation
+│   │   ├── sections/      # Main page sections
+│   │   ├── interactive/   # Interactive elements (Timeline, Skills viz)
+│   │   └── shared/        # Reusable components
+│   ├── layouts/           # Page layouts
+│   ├── pages/             # Astro pages
+│   ├── styles/            # Global styles and themes
+│   ├── scripts/           # JavaScript files
+│   │   └── easteregg.js   # Konami code & treasure hunt
+│   ├── data/              # Data for components
+│   └── utils/             # Utility functions
+├── astro.config.mjs       # Astro configuration
+└── tailwind.config.mjs    # Tailwind configuration
 ```
 
-## Authors
+## Special Features
 
-* **Michael Roush** - *Project completion*
+### Theme Toggle
+Switch between "Coffee Mode" (light theme) and "Bourbon Mode" (dark theme) with a persistent theme preference.
+
+### Interactive Timeline
+A growing tree visualization showing key career milestones that animates as you scroll.
+
+### Skills Visualization
+Interactive, force-directed visualization of skills with category filtering and interactive nodes.
+
+### Easter Egg Hunt
+Activate with the Konami code (↑↑↓↓←→←→BA) to reveal hidden items throughout the site:
+- 5 coffee cups
+- 5 bourbon glasses
+- 5 bicycles
+
+### Quote Integration
+Inspirational quotes appear between sections, categorized by personal, technical, and leadership themes.
+
+## Deployment
+
+This site is automatically deployed to GitHub Pages via GitHub Actions whenever changes are pushed to the master branch.
 
 ## License
 
-Copyright © 2019 Michael Roush. All rights reserved.
-
+[MIT License](LICENSE)

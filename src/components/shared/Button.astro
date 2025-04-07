@@ -1,0 +1,56 @@
+---
+interface Props {
+  text: string;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  variant?: 'primary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  icon?: string;
+  className?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+}
+
+const {
+  text,
+  href,
+  type = 'button',
+  variant = 'primary',
+  size = 'md',
+  icon,
+  className = '',
+  target,
+  ...rest
+} = Astro.props;
+
+// Variant styles
+const variants = {
+  primary: 'btn-primary',
+  outline: 'btn-outline',
+  ghost: 'bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)]'
+};
+
+// Size styles
+const sizes = {
+  sm: 'text-sm px-3 py-1',
+  md: 'px-5 py-2',
+  lg: 'text-lg px-6 py-3'
+};
+
+const classes = `btn ${variants[variant]} ${sizes[size]} ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} class={classes} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} {...rest}>
+      {icon && <span class="mr-2">{icon}</span>}
+      {text}
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      {icon && <span class="mr-2">{icon}</span>}
+      {text}
+      <slot />
+    </button>
+  )
+}

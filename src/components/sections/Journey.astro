@@ -1,0 +1,38 @@
+---
+import SectionHeading from '../shared/SectionHeading.astro';
+import TimelineTree from '../interactive/TimelineTree.astro';
+import QuoteBlock from '../shared/QuoteBlock.astro';
+import { quotes } from '../../data/journey.js';
+
+// Select a random quote from the "personal" category
+const personalQuotes = quotes.filter(quote => quote.category === 'personal');
+const randomQuote = personalQuotes[Math.floor(Math.random() * personalQuotes.length)] || quotes[0];
+---
+
+<section id="journey" class="bg-[var(--color-bg-secondary)] py-20 transition-theme">
+  <div class="container-section">
+    <SectionHeading 
+      title="My Journey" 
+      subtitle="From first code to leadership and beyond - explore the key milestones that shaped my career."
+      alignment="center"
+    />
+    
+    <!-- Journey Tree Visualization -->
+    <div class="mt-16">
+      <TimelineTree />
+    </div>
+    
+    <!-- Personal Quote -->
+    <QuoteBlock 
+      text={randomQuote.text}
+      author={randomQuote.author}
+      category={randomQuote.category}
+    />
+    
+    <div class="text-center mt-12">
+      <p class="text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+        Each step of my journey has built upon the previous ones, creating a strong foundation of technical skills, leadership experience, and passion for creating impactful software.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,217 @@
+---
+import SectionHeading from '../shared/SectionHeading.astro';
+import Card from '../shared/Card.astro';
+import Button from '../shared/Button.astro';
+import { projectsData } from '../../data/projects.js';
+
+// Starting with only featured projects
+const featuredProjects = projectsData.filter(project => project.featured);
+---
+
+<section id="projects" class="bg-[var(--color-bg-secondary)] py-20 transition-theme">
+  <div class="container-section">
+    <SectionHeading 
+      title="Project Showcase" 
+      subtitle="A selection of my projects spanning web, mobile, and software development."
+    />
+    
+    <!-- Project Categories -->
+    <div class="flex justify-center mb-8">
+      <div class="inline-flex bg-[var(--color-bg-primary)] p-1 rounded-full">
+        <button 
+          class="project-filter px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-[var(--color-accent)] text-white"
+          data-filter="all"
+        >
+          All
+        </button>
+        <button 
+          class="project-filter px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-[var(--color-accent)] hover:text-white"
+          data-filter="web"
+        >
+          Web
+        </button>
+        <button 
+          class="project-filter px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-[var(--color-accent)] hover:text-white"
+          data-filter="mobile"
+        >
+          Mobile
+        </button>
+        <button 
+          class="project-filter px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-[var(--color-accent)] hover:text-white"
+          data-filter="other"
+        >
+          Other
+        </button>
+      </div>
+    </div>
+    
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+      {featuredProjects.map((project) => (
+        <Card
+          title={project.title}
+          description={project.description}
+          image={project.image}
+          tags={project.technologies}
+          className={`project-card ${project.category}`}
+          data-category={project.category}
+        >
+          <div class="flex mt-4 space-x-3">
+            {project.links.code && (
+              <Button
+                text="View Code"
+                href={project.links.code}
+                variant="outline"
+                size="sm"
+                target="_blank"
+                icon="<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4'></path></svg>"
+              />
+            )}
+            {project.links.live && (
+              <Button
+                text="Live Demo"
+                href={project.links.live}
+                variant="primary"
+                size="sm"
+                target="_blank"
+                icon="<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3'></path></svg>"
+              />
+            )}
+          </div>
+        </Card>
+      ))}
+    </div>
+    
+    <!-- Load More Button -->
+    <div class="flex justify-center mt-10">
+      <Button
+        text="View More Projects"
+        id="load-more-projects"
+        variant="primary"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { projectsData } from '../../data/projects.js';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    // Project filtering
+    const filterButtons = document.querySelectorAll('.project-filter');
+    const projectsGrid = document.getElementById('projects-grid');
+    const loadMoreButton = document.getElementById('load-more-projects');
+    
+    let currentFilter = 'all';
+    let showingAllProjects = false;
+    
+    // Initialize with featured projects
+    let displayedProjects = projectsData.filter(project => project.featured);
+    
+    // Filter click handler
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active filter
+        filterButtons.forEach(btn => {
+          btn.classList.remove('bg-[var(--color-accent)]', 'text-white');
+        });
+        button.classList.add('bg-[var(--color-accent)]', 'text-white');
+        
+        // Get filter value
+        currentFilter = button.dataset.filter;
+        
+        // Filter and update projects
+        updateProjectsDisplay();
+      });
+    });
+    
+    // Load more button
+    if (loadMoreButton) {
+      loadMoreButton.addEventListener('click', () => {
+        showingAllProjects = !showingAllProjects;
+        updateProjectsDisplay();
+        
+        // Update button text
+        loadMoreButton.querySelector('span').textContent = 
+          showingAllProjects ? 'Show Less' : 'View More Projects';
+      });
+    }
+    
+    function updateProjectsDisplay() {
+      // Determine which projects to show
+      displayedProjects = showingAllProjects ? projectsData : projectsData.filter(project => project.featured);
+      
+      // Apply filter if not showing all
+      if (currentFilter !== 'all') {
+        displayedProjects = displayedProjects.filter(project => project.category === currentFilter);
+      }
+      
+      // Clear the grid
+      if (projectsGrid) {
+        projectsGrid.innerHTML = '';
+        
+        // Add projects to grid
+        displayedProjects.forEach(project => {
+          const card = createProjectCard(project);
+          projectsGrid.appendChild(card);
+        });
+      }
+    }
+    
+    function createProjectCard(project) {
+      // Create project card dynamically
+      const card = document.createElement('div');
+      card.className = `project-card ${project.category} bg-[var(--color-bg-secondary)] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300`;
+      card.dataset.category = project.category;
+      
+      const imageHtml = project.image ? 
+        `<div class="relative h-48 overflow-hidden">
+          <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+        </div>` : '';
+      
+      const tagsHtml = project.technologies.length > 0 ?
+        `<div class="flex flex-wrap gap-2 mt-4">
+          ${project.technologies.map(tag => 
+            `<span class="px-2 py-1 text-xs bg-[var(--color-bg-primary)] rounded-full text-[var(--color-text-secondary)]">${tag}</span>`
+          ).join('')}
+        </div>` : '';
+      
+      const buttonsHtml = `
+        <div class="flex mt-4 space-x-3">
+          ${project.links.code ? 
+            `<a href="${project.links.code}" target="_blank" rel="noopener noreferrer" 
+              class="inline-flex items-center justify-center px-3 py-1 text-sm rounded-md font-medium transition-all duration-200
+              border-2 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+              </svg>
+              View Code
+            </a>` : ''
+          }
+          ${project.links.live ? 
+            `<a href="${project.links.live}" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-3 py-1 text-sm rounded-md font-medium transition-all duration-200
+              bg-[var(--color-accent)] text-white transform hover:scale-105">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"></path>
+              </svg>
+              Live Demo
+            </a>` : ''
+          }
+        </div>
+      `;
+      
+      card.innerHTML = `
+        ${imageHtml}
+        <div class="p-6">
+          <h3 class="text-[var(--color-text-primary)] text-xl font-bold mb-2">${project.title}</h3>
+          <p class="text-[var(--color-text-secondary)] mb-4">${project.description}</p>
+          ${tagsHtml}
+          ${buttonsHtml}
+        </div>
+      `;
+      
+      return card;
+    }
+  });
+</script>

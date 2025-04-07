@@ -1,0 +1,64 @@
+---
+import Button from '../shared/Button.astro';
+---
+
+<section 
+  id="hero" 
+  class="relative min-h-screen flex items-center justify-center bg-[var(--color-bg-primary)] transition-theme overflow-hidden"
+>
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-[var(--color-bg-secondary)] opacity-30"></div>
+  </div>
+  
+  <div class="container mx-auto px-4 py-20 z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[var(--color-text-primary)]">
+        <span class="block">Hi, I'm Mikey Roush</span>
+        <span class="text-[var(--color-accent)]">Senior Software Developer</span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-8 max-w-2xl mx-auto">
+        Building impactful software and leading engineering teams at Frogslayer.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <Button 
+          text="See My Work" 
+          href="#projects" 
+          variant="primary" 
+          size="lg"
+        />
+        <Button 
+          text="Contact Me" 
+          href="#contact" 
+          variant="outline" 
+          size="lg"
+        />
+      </div>
+    </div>
+  </div>
+  
+  <div class="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
+    <a href="#about" aria-label="Scroll to About section">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)]">
+        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<script>
+  // Simple parallax effect on scroll
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroSection = document.getElementById('hero');
+    
+    window.addEventListener('scroll', () => {
+      if (!heroSection) return;
+      
+      const scrollPos = window.scrollY;
+      const speed = 0.5;
+      
+      heroSection.style.backgroundPosition = `center ${scrollPos * speed}px`;
+    });
+  });
+</script>
