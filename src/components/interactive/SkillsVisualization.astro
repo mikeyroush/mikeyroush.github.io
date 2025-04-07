@@ -21,6 +21,25 @@ const categories = Object.keys(skillsData);
       </button>
     ))}
   </div>
+
+  <!-- Skill detail modal -->
+  <div id="skill-detail-modal" class="fixed hidden inset-0 z-50">
+    <div class="absolute inset-0 bg-black bg-opacity-50" id="modal-backdrop"></div>
+    <div class="relative z-10 max-w-md mx-auto mt-32 bg-[var(--color-bg-primary)] rounded-lg shadow-xl p-6">
+      <button id="close-modal" class="absolute top-2 right-2 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] text-xl">
+        &times;
+      </button>
+      <h3 id="modal-skill-name" class="text-xl font-bold text-[var(--color-text-primary)] mb-2"></h3>
+      <div class="flex items-center mb-3">
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+          <div id="modal-skill-level" class="bg-[var(--color-accent)] h-2.5 rounded-full"></div>
+        </div>
+        <span id="modal-skill-level-text" class="ml-2 text-sm font-medium text-[var(--color-text-secondary)]"></span>
+      </div>
+      <p id="modal-skill-experience" class="text-[var(--color-text-secondary)] mb-3"></p>
+      <p class="text-[var(--color-text-secondary)] text-sm">Click and drag the bubbles to interact with the visualization.</p>
+    </div>
+  </div>
   
   <!-- Legend for skill level -->
   <div class="absolute bottom-4 left-4 bg-[var(--color-bg-secondary)] p-2 rounded-lg shadow-sm z-10">
@@ -34,6 +53,11 @@ const categories = Object.keys(skillsData);
       <span class="text-xs">Advanced</span>
     </div>
   </div>
+
+  <!-- Instruction tooltip -->
+  <div class="absolute bottom-4 right-4 bg-[var(--color-bg-secondary)] p-2 rounded-lg shadow-sm z-10 text-xs text-[var(--color-text-secondary)]">
+    Click on any bubble for details
+  </div>
 </div>
 
 <script>
@@ -41,6 +65,19 @@ const categories = Object.keys(skillsData);
   import { skillsData } from '../../data/skills.js';
   
   document.addEventListener('DOMContentLoaded', () => {
+    // Modal elements
+    const modal = document.getElementById('skill-detail-modal');
+    const modalName = document.getElementById('modal-skill-name');
+    const modalLevel = document.getElementById('modal-skill-level');
+    const modalLevelText = document.getElementById('modal-skill-level-text');
+    const modalExperience = document.getElementById('modal-skill-experience');
+    const closeModal = document.getElementById('close-modal');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    
+    // Close modal on button click or backdrop click
+    if (closeModal) closeModal.addEventListener('click', () => modal?.classList.add('hidden'));
+    if (modalBackdrop) modalBackdrop.addEventListener('click', () => modal?.classList.add('hidden'));
+    
     // Convert the skills data to a format suitable for D3
     const categories = Object.keys(skillsData);
     const firstCategory = categories[0];
@@ -81,15 +118,15 @@ const categories = Object.keys(skillsData);
     // Prepare data
     const data = skillsData[category].skills.map(skill => ({
       ...skill,
-      radius: 20 + (skill.level / 10), // Scale radius based on skill level
+      radius: 25 + (skill.level / 5), // Increased radius for better readability
       color: getColorForLevel(skill.level)
     }));
     
     // Create force simulation
     const simulation = d3.forceSimulation(data)
-      .force('charge', d3.forceManyBody().strength(100))
+      .force('charge', d3.forceManyBody().strength(150)) // Increased repulsion
       .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide().radius(d => d.radius + 10))
+      .force('collision', d3.forceCollide().radius(d => d.radius + 15)) // Increased padding
       .on('tick', ticked);
     
     // Create nodes
@@ -98,10 +135,44 @@ const categories = Object.keys(skillsData);
       .data(data)
       .enter()
       .append('g')
+      .attr('class', 'skill-node cursor-pointer')
       .call(d3.drag()
         .on('start', dragstarted)
         .on('drag', dragged)
-        .on('end', dragended));
+        .on('end', dragended))
+      .on('click', showSkillDetails);
+    
+    // Add hover effect to nodes
+    node.on('mouseover', function() {
+      // Expand circle
+      d3.select(this).select('circle').transition()
+        .duration(300)
+        .attr('r', d => d.radius * 1.1); // Expand on hover
+      
+      // Increase font size proportionally
+      d3.select(this).select('text:first-of-type').transition()
+        .duration(300)
+        .attr('font-size', d => Math.min(2.5 * (d.radius * 1.1) / (d.name.length), 16));
+        
+      d3.select(this).select('text:last-of-type').transition()
+        .duration(300)
+        .attr('font-size', '14px');
+    })
+    .on('mouseout', function() {
+      // Return circle to normal size
+      d3.select(this).select('circle').transition()
+        .duration(300)
+        .attr('r', d => d.radius);
+        
+      // Return font to normal size
+      d3.select(this).select('text:first-of-type').transition()
+        .duration(300)
+        .attr('font-size', d => Math.min(2.5 * d.radius / (d.name.length), 14));
+        
+      d3.select(this).select('text:last-of-type').transition()
+        .duration(300)
+        .attr('font-size', '12px');
+    });
     
     // Add circles to nodes
     node.append('circle')
@@ -111,23 +182,48 @@ const categories = Object.keys(skillsData);
       .attr('stroke-width', 2)
       .attr('stroke-opacity', 0.5);
     
-    // Add text to nodes (skill name)
+    // Add text to nodes (skill name) - increased font size
     node.append('text')
       .attr('text-anchor', 'middle')
       .attr('dy', '.3em')
       .text(d => d.name)
       .attr('fill', 'var(--color-text-primary)')
-      .attr('font-size', d => Math.min(2 * d.radius / (d.name.length), 12))
+      .attr('font-weight', 'bold')
+      .attr('font-size', d => Math.min(2.5 * d.radius / (d.name.length), 14))
       .style('pointer-events', 'none');
     
-    // Add text for experience years
+    // Add text for experience years - increased font size
     node.append('text')
       .attr('text-anchor', 'middle')
-      .attr('dy', '1.5em')
+      .attr('dy', '2em')
       .text(d => `${d.years} yr${d.years > 1 ? 's' : ''}`)
       .attr('fill', 'var(--color-text-secondary)')
-      .attr('font-size', '10px')
+      .attr('font-size', '12px')
       .style('pointer-events', 'none');
+    
+    // Function to show skill details in modal
+    function showSkillDetails(event, d) {
+      // Get modal elements
+      const modal = document.getElementById('skill-detail-modal');
+      const modalName = document.getElementById('modal-skill-name');
+      const modalLevel = document.getElementById('modal-skill-level');
+      const modalLevelText = document.getElementById('modal-skill-level-text');
+      const modalExperience = document.getElementById('modal-skill-experience');
+      
+      if (!modal || !modalName || !modalLevel || !modalLevelText || !modalExperience) return;
+      
+      // Fill modal with skill details
+      modalName.textContent = d.name;
+      modalLevel.style.width = `${d.level}%`;
+      modalLevelText.textContent = `${d.level}%`;
+      modalExperience.textContent = `Experience: ${d.years} year${d.years > 1 ? 's' : ''}`;
+      
+      // Show modal
+      modal.classList.remove('hidden');
+      
+      // Stop event propagation
+      event.stopPropagation();
+    }
     
     // Ticked function to update positions
     function ticked() {

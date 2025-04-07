@@ -42,14 +42,14 @@ const classes = `btn ${variants[variant]} ${sizes[size]} ${className}`;
 {
   href ? (
     <a href={href} class={classes} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} {...rest}>
-      {icon && <span class="mr-2">{icon}</span>}
-      {text}
+      {icon && <span class="mr-2" set:html={icon} />}
+      <span>{text}</span>
       <slot />
     </a>
   ) : (
     <button type={type} class={classes} {...rest}>
-      {icon && <span class="mr-2">{icon}</span>}
-      {text}
+      {icon && <span class="mr-2" set:html={icon} />}
+      <span>{text}</span>
       <slot />
     </button>
   )

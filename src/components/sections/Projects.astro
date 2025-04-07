@@ -64,7 +64,7 @@ const featuredProjects = projectsData.filter(project => project.featured);
                 variant="outline"
                 size="sm"
                 target="_blank"
-                icon="<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4'></path></svg>"
+                icon={`<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>`}
               />
             )}
             {project.links.live && (
@@ -74,7 +74,7 @@ const featuredProjects = projectsData.filter(project => project.featured);
                 variant="primary"
                 size="sm"
                 target="_blank"
-                icon="<svg xmlns='http://www.w3.org/2000/svg' class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3'></path></svg>"
+                icon={`<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3"></path></svg>`}
               />
             )}
           </div>
@@ -132,8 +132,10 @@ const featuredProjects = projectsData.filter(project => project.featured);
         updateProjectsDisplay();
         
         // Update button text
-        loadMoreButton.querySelector('span').textContent = 
-          showingAllProjects ? 'Show Less' : 'View More Projects';
+        const buttonText = loadMoreButton.querySelector('span');
+        if (buttonText) {
+          buttonText.textContent = showingAllProjects ? 'Show Less' : 'View More Projects';
+        }
       });
     }
     

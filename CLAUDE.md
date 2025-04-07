@@ -26,6 +26,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Special Features
 - **Theme System**: Coffee (light) and Bourbon (dark) themes using CSS variables
+  - Custom theme icons stored in `/public/images/icons/`
+  - To change theme icons, replace `coffee.png` and `bourbon.png` in this directory
 - **Timeline Tree**: GSAP-animated tree visualization in Journey section
-- **Skills Visualization**: D3-based force-directed graph for skills
+- **Skills Visualization**: D3-based force-directed graph for skills with hover effects and modals
+- **Email Contact**: Opens native email client with prepopulated message
 - **Easter Egg**: Konami code (↑↑↓↓←→←→BA) activates hidden treasure hunt
